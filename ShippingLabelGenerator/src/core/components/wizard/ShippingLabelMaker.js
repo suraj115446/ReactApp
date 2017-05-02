@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import GetSenderAddress from './GetSenderAddress'
-import GetReceiverAddress from './GetReceiverAddress'
-import GetPackageWeight from './GetPackageWeight'
-import ShippingLabelView from './ShippingLabelView'
-import {Button} from 'react-bootstrap';
+import GetSenderAddress from './GetSenderAddress';
+import GetReceiverAddress from './GetReceiverAddress';
+import GetPackageWeight from './GetPackageWeight';
+import ShippingLabelView from './ShippingLabelView';
+
+import {Button,Panel} from 'react-bootstrap';
+import {Header} from 'react-bootstrap';
 
 class ShippingLabelMaker extends Component {
-
 
   constructor(props){
     super(props);
@@ -92,35 +93,39 @@ class ShippingLabelMaker extends Component {
  render() {
     return (
      <div>
+        <h3>
        <div>{this.props.title}</div>
+       </h3>
+        <Panel>
        {this.state.displayLabel ? <ShippingLabelView data={this.state}/> :
       <div>
        <div>
-         { this.state.currentState === 0 ? <GetSenderAddress onSenderAddressChange={this.saveSenderAddress} title={this.titles[this.state.currentState]} />:"" }
+         { this.state.currentState === 0 ? <GetSenderAddress onSenderAddressChange={this.saveSenderAddress} senderAddress={this.state.senderAddress} title={this.titles[this.state.currentState]} />:"" }
        </div>
        <div>
-         { this.state.currentState === 1 ? <GetReceiverAddress onReceiverAddressChange={this.saveReceiverAddress} title={this.titles[this.state.currentState]} />:"" }
+         { this.state.currentState === 1 ? <GetReceiverAddress onReceiverAddressChange={this.saveReceiverAddress} receiverAddress={this.state.receiverAddress} title={this.titles[this.state.currentState]} />:"" }
        </div>
        <div>
-         { this.state.currentState === 2 ? <GetPackageWeight onPackageWeightTextChange={this.savePacketWeight}  title={this.titles[this.state.currentState]} />:"" }
+         { this.state.currentState === 2 ? <GetPackageWeight onPackageWeightTextChange={this.savePacketWeight} packageWeight={this.state.packageWeight}  title={this.titles[this.state.currentState]} />:"" }
        </div>
 
        <div>
         {this.state.previousButtonEnabled ? 
-        <button onClick={this.handlePreviousClick} >
+        <Button bsStyle="primary" size="large"onClick={this.handlePreviousClick} >
          Previous
-      </button> : ""}
+      </Button> : ""}
         {this.state.nextButtonEnabled ? 
-        <button onClick={this.handleNextClick} >
+        <Button bsStyle="primary" onClick={this.handleNextClick} >
          Next
-      </button> : ""}
+      </Button> : ""}
         {this.state.printShippingLabel ? 
-        <button onClick={this.handlePrintLabelClick} >
+        <Button bsStyle="success" onClick={this.handlePrintLabelClick} >
          Print Shipping Label
-      </button> : ""}
+      </Button> : ""}
       </div>
 
       </div>}
+      </Panel>
       </div>
     );
   }
