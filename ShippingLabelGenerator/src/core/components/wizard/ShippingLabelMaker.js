@@ -28,7 +28,7 @@ class ShippingLabelMaker extends Component {
 
   titles =["Sender Address Form"," Receiver address form","Package Weight Form "]; 
 
-  steps =[];
+  steps =["SenderAdressComponent", "ReceiverAddressComponent","PackageWeightComponent"];
 
   onComplete = function(){
 
@@ -85,7 +85,7 @@ class ShippingLabelMaker extends Component {
   handlePrintLabelClick = (e) => {
     this.setState((prevState, props) => ({
       displayLabel : true,
-    totalPrice : prevState.rate * prevState.packageWeight
+      totalPrice : prevState.rate * prevState.packageWeight
  
     }));
   }
@@ -100,18 +100,18 @@ class ShippingLabelMaker extends Component {
        {this.state.displayLabel ? <ShippingLabelView data={this.state}/> :
       <div>
        <div>
-         { this.state.currentState === 0 ? <GetSenderAddress onSenderAddressChange={this.saveSenderAddress} senderAddress={this.state.senderAddress} title={this.titles[this.state.currentState]} />:"" }
+         { this.steps[this.state.currentState] === "SenderAdressComponent" ? <GetSenderAddress onSenderAddressChange={this.saveSenderAddress} senderAddress={this.state.senderAddress} title={this.titles[this.state.currentState]} />:"" }
        </div>
        <div>
-         { this.state.currentState === 1 ? <GetReceiverAddress onReceiverAddressChange={this.saveReceiverAddress} receiverAddress={this.state.receiverAddress} title={this.titles[this.state.currentState]} />:"" }
+         { this.steps[this.state.currentState] === "ReceiverAddressComponent" ? <GetReceiverAddress onReceiverAddressChange={this.saveReceiverAddress} receiverAddress={this.state.receiverAddress} title={this.titles[this.state.currentState]} />:"" }
        </div>
        <div>
-         { this.state.currentState === 2 ? <GetPackageWeight onPackageWeightTextChange={this.savePacketWeight} packageWeight={this.state.packageWeight}  title={this.titles[this.state.currentState]} />:"" }
+         { this.steps[this.state.currentState] === "PackageWeightComponent" ? <GetPackageWeight onPackageWeightTextChange={this.savePacketWeight} packageWeight={this.state.packageWeight}  title={this.titles[this.state.currentState]} />:"" }
        </div>
 
        <div>
         {this.state.previousButtonEnabled ? 
-        <Button bsStyle="primary" size="large"onClick={this.handlePreviousClick} >
+        <Button bsStyle="primary" size="large" onClick={this.handlePreviousClick} >
          Previous
       </Button> : ""}
         {this.state.nextButtonEnabled ? 
